@@ -1,128 +1,5 @@
 #Session 4
 
-coming soon
-
-```
-.panels {
-  min-height:100vh;
-  overflow: hidden;
-  display: flex; // //
-}
-```
-
-Each takes an equal width:
-
-```
-.panel {
-  flex: 1;
-```
-
-```
-.panel * { 
-  border: 1px solid red;
-```
-
-```
-.panel {
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-```
-
-```
-.panel * {
-  border: 1px solid red;
-  flex: 1 0 auto;
-```
-
-```
-.panel * {
-  border: 1px solid red;
-  flex: 1 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-```
-
-```
-.panel :first-child {
-  transform: translateY(-100%);
-}
-```
-
-```
-.panel :last-child {
-  transform: translateY(100%);
-}
-```
-
-```
-.panel.open-active :first-child {
-  transform: translateY(0);
-}
-```
-
-```
-$0.classList.add('open-active')
-```
-
-Open panels take 5 times as much space:
-
-```
-.panel.open {
-  flex: 5;
-```
-
-```
-$0.classList.add('open')
-```
-
-```
-const panels = document.querySelectorAll('.panel');
-
-function toggleOpen(){
-  this.classList.toggle('open')
-}
-    
-panels.forEach( (panel) => panel.addEventListener('click', toggleOpen))
-```
-
-```
-setTimeout(function(){
-      
-},0.7)
-```
-
-```
-function openActive(e){
-  console.log(e.propertyName)
-  // this.classList.toggle('open-active')
-}
-
-panels.forEach( (panel) => panel.addEventListener('transitionend', openActive))
-```
-
-```
-function openActive(e){
-  console.log(e.propertyName)
-  if (e.propertyName === 'flex-grow')
-  // this.classList.toggle('open-active')
-}
-```
-
-
-```
-    function openActive(e){
-      if(e.propertyName.includes('flex')){
-        this.classList.toggle('open-active')
-      }
-    }
-```
-
-
-
 ##CRUD (continued)
 
 cd into the working directory and npm install all dependencies.
@@ -382,6 +259,10 @@ Edit navItems.js to remove the hashes.
 <% include partials/header %>
 <% include partials/footer %>
 
+
+##Angular as a Templating Engine
+
+See `angular`
 
 
 
