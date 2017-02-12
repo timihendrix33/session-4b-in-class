@@ -2,7 +2,7 @@
 
 ##CRUD (continued)
 
-cd into the working directory and npm install all dependencies.
+|| cd into the working directory and npm install all dependencies. ||
 
 Review the connection settings.
 
