@@ -1,7 +1,4 @@
- var app = angular.module('myApp', ['ngSanitize']);
-
-function NavController( $scope ) {
-$scope.navItems = [
+const navItems = [
 {
   label: 'Watchlist',
   link: 'watchlist',
@@ -86,5 +83,4 @@ $scope.navItems = [
   <li>View your Watchlist, your Workbook and Connect from the tablet and the desktop</li>
   <li>Create charts on the desktop and view them on the app</li>
   </ul>`
-}]
-};
+}];

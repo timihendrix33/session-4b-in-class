@@ -49,41 +49,6 @@ app.post('/entries', (req, res) => {
 
 
 
-// EXAMPLE - REQUEST PARAMETERS
-// app.get('/entry/:name?/:link?', function(req, res){
-// 	let name = req.params.name;
-// 	let hashlink = req.params.link;
-// 	res.send(`
-// 		<h1>${name}</h1>
-// 		<p>Commentary on ${hashlink} will go here.</p>
-// 		`)
-// })
-
-// EXAMPLE - START EXPRESS
-// app.listen(port, function () {
-// 	console.log(`Listening on port ${port}!`)
-// })
-
-
-// app.get('/', (req, res) => {
-//  res.sendFile(__dirname + '/index.html')
-// })
-
-// EXAMPLE - VIEW FORM CONTENTS (object) IN THE REQUEST BODY
-// app.post('/entries', (req, res) => {
-//   let payload = req.body
-//   console.log(typeof payload)
-//   res.redirect('/')
-// })
-
-
-
-
-
-
-
-
-
 
 
 
