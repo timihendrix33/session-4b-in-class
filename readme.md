@@ -10,18 +10,12 @@ Log into mLab.com and find your database and database user.
 
 Add a variable with the db username and password in the connection URL 
 
-`const mongoUrl = mongodb://dannyboynyc:dd2345@ds139969.mlab.com:39969/bcl` 
+`const mongoUrl = 'mongodb://dannyboynyc:dd2345@ds139969.mlab.com:39969/bcl'` 
 
 (Replace it with your own.)
 
 ```
-MongoClient.connect(mongoUrl, (err, database) => {
-  if (err) return console.log(err)
-  db = database
-  app.listen(port, () => {
-    console.log(`Listening on port ${port}!`)
-  })
-})
+MongoClient.connect(mongoUrl, (err, database) => {...}
 ```
 
 Run `nodemon app.js`
@@ -34,7 +28,7 @@ To show the entries stored in MongoLab:
 
 2. Use Javascript to display the entries
 
-We can get the entries from MongoLab by using the find method that’s available in the collection method.
+We can get the entries from MongoLab by using the find method that’s available in the [collection method](https://docs.mongodb.com/manual/reference/method/js-collection/).
 
 ```js
 app.get('/', (req, res) => {
@@ -44,11 +38,11 @@ app.get('/', (req, res) => {
 })
 ```
 
-The find method returns a cursor (a complex Mongo Object that probably doesn’t make sense).
+The find method returns a cursor (a complex Mongo Object that probably doesn’t make much sense).
 
-This cursor object contains all entries from our database. It also contains a bunch of other properties and methods that allow us to work with data easily. One method is the toArray method.
+This cursor object contains all entries from our database. It also contains a [bunch of other properties and methods](https://docs.mongodb.com/manual/reference/method/js-cursor/) that allow us to work with data easily. One method is the toArray method.
 
-The toArray method takes callback function that allows us to do stuff with entries we retrieved from MongoLab. Let’s try doing a console.log() for the results and see what we get:
+The `toArray` method takes callback function that allows us to perform actions on the entries we retrieved from MongoLab. Try doing a console.log() for the results and see what we get:
 
 
 ```js
@@ -64,7 +58,7 @@ The array of entries should appear in the terminal.
 
 ####Generate HTML to contain the entries
 
-The standard method for outputting content fetched from a database is to use a templating engine. Some popular template engines include Jade/pug, Moustache, Embedded JavaScript (ejs) and Nunjucks. React and Angular offer their own templating engines but to conclude this exersize we will use Embedded JavaScript (ejs). It’s the easiest to implement.
+The standard method for outputting content fetched from a database is to use a templating engine. Some popular template engines include Jade/pug, Moustache, Embedded JavaScript (ejs) and Nunjucks. React and Angular offer their own templating engines - but to conclude this exercise we will use Embedded JavaScript (ejs). It’s the easiest to implement.
 
 We use ejs by first installing it and then setting the view engine in Express to ejs.
 
@@ -84,28 +78,20 @@ touch views/index.ejs
 Now, copy the contents of index.html into index.ejs and add.
 
 ```
-<div>
-  <% for(var i=0; i<entries.length; i++) { %>
-    <h2><%= entries[i].label %></h2>
-    <p><%= entries[i].content %></p>
-  <% } %>
+<% for(var i=0; i<entries.length; i++) { %>
+<div class="entry">
+  <h2><%= entries[i].label %></h2>
+  <p><%= entries[i].content %></p>
 </div>
+<% } %>
 ```
 
 In EJS, you can write JavaScript within <% and %> tags. You can also output JavaScript as strings with the <%= and %> tags.
 
 ```
-<% for(var i=0; i<entries.length; i++) { %>
-<div class="entry">
-	<h2><%= entries[i].label %></h2>
-	<p><%= entries[i].content %></p>
-</div>
-<% } %>
-```
-
-```
 .entry {
 	background: #eee;
+  padding: 0.5rem;
 }
 ```
 
@@ -114,38 +100,39 @@ We’re basically going to loop through the entries array and create strings wit
 The complete index.ejs file so far should be:
 
 ```
-  <!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>MY APP</title>
-    <style>
-      input, textarea {
-        display: block;
-        margin: 1rem;
-        width: 70%;
-      }
-    </style>
-  </head>
-  <body>
-    <p>Testing 1 2 3</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test</title>
+  <style>
+    input, textarea {
+      display: block;
+      margin: 1rem;
+      width: 70%;
+    }
+    .entry {
+      background: #eee;
+    }
+  </style>
+</head>
+<body>
+  <% for(var i=0; i<entries.length; i++) { %>
+  <div class="entry">
+    <h2><%= entries[i].label %></h2>
+    <p><%= entries[i].content %></p>
+  </div>
+  <% } %>
 
-    <form action="/entries" method="POST">
-      <input type="text" placeholder="label" name="label">
-      <input type="text" placeholder="header" name="header">
-      <textarea type="text" placeholder="content" name="content"></textarea>
-      <button type="submit">Submit</button>
-    </form>
+  <form action="/entries" method="POST">
+    <input type="text" placeholder="label" name="label">
+    <input type="text" placeholder="header" name="header">
+    <textarea type="text" placeholder="content" name="content"></textarea>
+    <button type="submit">Submit</button>
+  </form>
 
-	<% for(var i=0; i<entries.length; i++) { %>
-	<div class="entry">
-		<h2><%= entries[i].label %></h2>
-		<p><%= entries[i].content %></p>
-	</div>
-	<% } %>
-
-  </body>
-  </html>
+</body>
+</html>
 ```
 
 Finally, we have to render this index.ejs file when handling the GET request. Here, we’re setting the results (an array) as the entries array we used in index.ejs above.
@@ -239,11 +226,11 @@ Migrate index.html into index.ejs something like the below:
 
 Change the name of index.html to something else.
 
-Enable use.static in app.js
+Enable use.static in app.js, rename /public/index.html (otherwise express will serve it instead of index.ejs), halt nodemon, and run:
 
 `npm run boom!`
 
-Get one entry:
+Get one entry using parameters:
 
 ```
 app.get('/:name?', (req, res) => {
@@ -256,17 +243,130 @@ app.get('/:name?', (req, res) => {
 })
 ```
 
-Edit main.js to remove onload and hashchange events. 
+Try: `http://localhost:3000/watchlist`
 
-Edit navItems.js to remove the hashes.
-
-<% include partials/header %>
-<% include partials/footer %>
+Edit main.js to remove onload and hashchange events and main.js to remove the hashes.
 
 
 ##Angular as a Templating Engine
 
-See `angular`
+Set up `angular` folder with npm install and boom!
+
+`<script src="https://code.angularjs.org/1.5.8/angular.js"></script>`
+
+`<html lang="en"  ng-app="myApp">`
+
+In navItems:
+
+`var app = angular.module('myApp', []);`
+
+`<body ng-controller="NavController">`
+
+```
+app.controller("NavController", function( $scope ) {
+  $scope.navItems = [
+```
+
+Comment out the navItems build script in main.js
+
+```
+const markup =
+//   `<ul>
+//     ${navItems.map(listItem => `<li><a href="${listItem.link}">${listItem.label}</a></li>`).join('')}
+//   </ul>`;
+// navLinks.innerHTML = markup;
+```
+
+Use angular to build it out again:
+
+```
+<nav id="main">
+  <a class="logo" href="#0"><img src="/img/logo.svg" /></a>
+  <ul id="nav-links">
+    <li ng-repeat="navItem in navItems">
+      <a href={{navItem.link}}>{{navItem.label}}</a>
+    </li>
+  </ul>
+</nav>
+```
+
+Build out the content:
+
+```
+<div ng-repeat="navItem in navItems">
+  <h2>{{ navItem.label }}</h2>
+  <h3>{{ navItem.header }}</h3>
+  <div ng-bind-html="navItem.content"></div>
+</div>
+```
+
+Load sanitize:
+
+`<script src="https://code.angularjs.org/1.5.8/angular-sanitize.min.js"></script>`
+
+Use injection to make it available:
+
+`var app = angular.module('myApp', ['ngSanitize']);`
+
+###Details, details
+
+Simple Angular directives:
+
+1. ng-app − This directive starts an AngularJS Application.
+2. ng-init − This directive initializes application data.
+3. ng-model − This directive defines the model that is variable to be used in AngularJS.
+4. ng-repeat − This directive repeats html elements for each item in a collection.
+
+```
+<div class="site-wrap"  ng-init="messageText = 'Hello World!'">
+
+<input ng-model="messageText" size="30"/><br/>
+Everybody shout "{{ messageText | uppercase }}"
+```
+
+Alernates 1 - using an object
+
+`ng-init="greeting = { greeter: 'Daniel' , message: 'Hello World' }"`
+
+```
+<input type="text" ng-model="greeting.greeter" size="30"/>
+<input type="text" ng-model="greeting.message" size="30"/>
+{{greeting.greeter }} says "{{ greeting.message }}"
+```
+
+Alternates 2 - using ng-repeat with an array
+
+```
+<div class="site-wrap" ng-init="portfolios = ['Call of Booty', 'The Sack of the Innocents', 'Pipe and First Mate']" >
+
+<ul>
+  <li ng-repeat="portfolio in portfolios">
+    {{ portfolio }}
+  </li>
+</ul>
+```
+
+Alernate 3 - filtering and ordering on an array of objects
+
+```
+<div class="site-wrap" ng-init="portfolios = [
+{ name: 'Call of Booty', date: '2013-09-01' },
+{ name: 'The Sack of the Innocents', date: '2014-04-15' },
+{ name: 'Pipe and First Mate', date: '2012-10-01' } ]">
+
+<p>Filter list: <input ng-model="searchFor" size="30"/></p>
+
+<ul>
+  <li ng-repeat="portfolio in portfolios | filter:searchFor | orderBy:'date' ">
+  {{ portfolio.name  }}</li>
+</ul>
+```
+
+```
+
+```
+
+
 
 
 
