@@ -2,16 +2,20 @@
 
 ##CRUD (continued)
 
-|| cd into the working directory and npm install all dependencies. ||
+cd into the working directory and npm install all dependencies.
 
 Review the connection settings.
 
 Log into mLab.com and find your database and database user.
 
-Replace the db username and password in the connection URL `mongodb://dannyboynyc:dd2345@ds139969.mlab.com:39969/bcl` with your own.
+Add a variable with the db username and password in the connection URL 
+
+`const mongoUrl = mongodb://dannyboynyc:dd2345@ds139969.mlab.com:39969/bcl` 
+
+(Replace it with your own.)
 
 ```
-MongoClient.connect('mongodb://******', (err, database) => {
+MongoClient.connect(mongoUrl, (err, database) => {
   if (err) return console.log(err)
   db = database
   app.listen(port, () => {
@@ -24,7 +28,7 @@ Run `nodemon app.js`
 
 ####Showing entries to users
 
-To show the entries stored in MongoLab to our users:
+To show the entries stored in MongoLab:
 
 1. Get entries from MongoLab
 
