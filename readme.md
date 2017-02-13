@@ -360,7 +360,7 @@ Alternates 2 - using ng-repeat with an array
 </ul>
 ```
 
-Alernate 3 - filtering and ordering on an array of objects
+Alernate 3 - [filtering](https://docs.angularjs.org/api/ng/filter) and ordering on an array of objects
 
 ```
 <div class="site-wrap" ng-init="portfolios = [
@@ -376,6 +376,66 @@ Alernate 3 - filtering and ordering on an array of objects
 </ul>
 ```
 
+ngClass:
+
+```
+<ul>
+  <li ng-repeat="portfolio in portfolios |
+  filter:searchFor |
+  orderBy:'date'"
+  ng-class="{ even: $even, odd: $odd }">
+  {{ portfolio.name  }}</li>
+</ul>
+```
+
+keys and values of the array:
+
+```
+<ul>
+  <li ng-repeat="(key, value) in portfolios">
+      <strong>{{key}}</strong> - {{value}}
+  </li>
+</ul>
+```
+
+##Components
+
+test.js
+
+```
+angular.module('myApp', []);
+
+angular.module('myApp').component('greetUser', {
+    template: 'Hello, {{$ctrl.user}}!',
+    controller: function GreetUserController() {
+        this.user = 'world';
+    }
+});
+```
+
+test.html
+
+```
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>AngularJS Module</title>
+  <script src="https://code.angularjs.org/1.5.8/angular.js"></script>
+  <script src="test.js"></script>
+</head>
+
+<body>
+
+  <div ng-app="myApp">
+    <greet-user></greet-user>
+  </div>
+
+</body>
+
+</html>
+```
 
 
 ###Notes
