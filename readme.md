@@ -254,18 +254,24 @@ Set up `angular` folder with npm install and boom!
 
 `<script src="https://code.angularjs.org/1.5.8/angular.js"></script>`
 
-`<html lang="en"  ng-app="myApp">`
+HTML5 introduced the `data-` [attribute](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes).
+
+Angular uses this concept to extend html with directives - data-ng-app, data-ng-controller, data-ng-repeat...
+
+`<html lang="en"  data-ng-app="myApp">`
 
 In navItems:
 
 `var app = angular.module('myApp', []);`
 
-`<body ng-controller="NavController">`
+`<body data-ng-controller="NavController">`
 
 ```
 app.controller("NavController", function( $scope ) {
   $scope.navItems = [
 ```
+
+[Scope](https://docs.angularjs.org/guide/scope#!) is the glue between application controller and the view.
 
 Comment out the navItems build script in main.js
 
@@ -277,18 +283,22 @@ const markup =
 // navLinks.innerHTML = markup;
 ```
 
-Use angular to build it out again:
+Use Angular to build it out again:
 
 ```
 <nav id="main">
   <a class="logo" href="#0"><img src="/img/logo.svg" /></a>
   <ul id="nav-links">
-    <li ng-repeat="navItem in navItems">
+    <li data-ng-repeat="navItem in navItems">
       <a href={{navItem.link}}>{{navItem.label}}</a>
     </li>
   </ul>
 </nav>
 ```
+
+`{{  }}` - moustaches or handlebars are similar to JavaScript Template Strings (`${   }`). These are known as [expressions](https://docs.angularjs.org/guide/expression).
+
+`ng-repeat` is a directive. There are [many directives](https://docs.angularjs.org/api/).
 
 Build out the content:
 
@@ -300,11 +310,13 @@ Build out the content:
 </div>
 ```
 
-Load sanitize:
+Note - injecting html into a page is considered unsafe. Try using `{{ navItem.content }}``
+
+Load [sanitize](https://docs.angularjs.org/api/ngSanitize):
 
 `<script src="https://code.angularjs.org/1.5.8/angular-sanitize.min.js"></script>`
 
-Use injection to make it available:
+Use [injection](https://docs.angularjs.org/guide/di) to make it available:
 
 `var app = angular.module('myApp', ['ngSanitize']);`
 
@@ -312,8 +324,8 @@ Use injection to make it available:
 
 Simple Angular directives:
 
-1. ng-app − This directive starts an AngularJS Application.
-2. ng-init − This directive initializes application data.
+1. ng-app − This directive starts an AngularJS Application. We use it to create [Modules](https://docs.angularjs.org/guide/module)
+2. ng-init − This directive initializes application data. (We won't use it except for the simple examples below.)
 3. ng-model − This directive defines the model that is variable to be used in AngularJS.
 4. ng-repeat − This directive repeats html elements for each item in a collection.
 
@@ -323,6 +335,8 @@ Simple Angular directives:
 <input ng-model="messageText" size="30"/><br/>
 Everybody shout "{{ messageText | uppercase }}"
 ```
+
+This is a demonstration of [data binding](https://docs.angularjs.org/guide/databinding).
 
 Alernates 1 - using an object
 
@@ -361,12 +375,6 @@ Alernate 3 - filtering and ordering on an array of objects
   {{ portfolio.name  }}</li>
 </ul>
 ```
-
-```
-
-```
-
-
 
 
 
