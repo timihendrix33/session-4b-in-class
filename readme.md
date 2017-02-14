@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 
 The find method returns a cursor (a complex Mongo Object that probably doesn’t make much sense).
 
-This cursor object contains all entries from our database. It also contains a [bunch of other properties and methods](https://docs.mongodb.com/manual/reference/method/js-cursor/) that allow us to work with data easily. One method is the toArray method.
+This cursor object contains all entries from our database. It also contains a [number of other properties and methods](https://docs.mongodb.com/manual/reference/method/js-cursor/) that allow us to work with data easily. One method is the toArray method.
 
 The `toArray` method takes callback function that allows us to perform actions on the entries we retrieved from MongoLab. Try doing a console.log() for the results and see what we get:
 
@@ -140,10 +140,10 @@ Finally, we have to render this index.ejs file when handling the GET request. He
 
 ```js
 app.get('/', (req, res) => {
-  db.collection('entries').find().toArray((err, result) => {
+  db.collection('entries').find().toArray((err, results) => {
     if (err) return console.log(err)
-    // renders index.ejs
-    res.render('index.ejs', {entries: result})
+    // render index.ejs
+    res.render('index.ejs', {entries: results})
   })
 })
 ```
@@ -160,7 +160,7 @@ We need to
 
 3. re-enable app.use static. 
 
-Edit package.json to proxy the browser sync to our express port number and add nodemon to our list of currently running scripts.
+Edit package.json to proxy the browser sync to our * express port number * (removing the server command too) and add nodemon to our list of concurrently running scripts (aka boom!).
 
 ```
  "scripts": {
@@ -324,7 +324,7 @@ Use [injection](https://docs.angularjs.org/guide/di) to make it available:
 
 Simple Angular directives:
 
-1. ng-app − This directive starts an AngularJS Application. We use it to create [Modules](https://docs.angularjs.org/guide/module)
+1. ng-app − This directive bootstraps an AngularJS Application. We use it together with [Modules](https://docs.angularjs.org/guide/module)
 2. ng-init − This directive initializes application data. (We won't use it except for the simple examples below.)
 3. ng-model − This directive defines the model that is variable to be used in AngularJS.
 4. ng-repeat − This directive repeats html elements for each item in a collection.
@@ -380,9 +380,7 @@ ngClass:
 
 ```
 <ul>
-  <li ng-repeat="portfolio in portfolios |
-  filter:searchFor |
-  orderBy:'date'"
+  <li ng-repeat="portfolio in portfolios | filter:searchFor | orderBy:'date'"
   ng-class="{ even: $even, odd: $odd }">
   {{ portfolio.name  }}</li>
 </ul>
@@ -400,18 +398,6 @@ keys and values of the array:
 
 ##Components
 
-test.js
-
-```
-angular.module('myApp', []);
-
-angular.module('myApp').component('greetUser', {
-    template: 'Hello, {{$ctrl.user}}!',
-    controller: function GreetUserController() {
-        this.user = 'world';
-    }
-});
-```
 
 test.html
 
@@ -435,6 +421,33 @@ test.html
 </body>
 
 </html>
+```
+
+test.js
+
+```
+angular.module('myApp', []);
+
+angular.module('myApp').component('greetUser', {
+    template: 'Hello, {{$ctrl.user}}!',
+    controller: function GreetUserController() {
+        this.user = 'world';
+    }
+});
+```
+
+For comparison - here is what an Angular 2 .ts module looks like:
+
+```
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'my-app',
+  template: '<h1>{{title}}</h1>',
+})
+export class AppComponent {
+  title = 'Minimal NgModule';
+}
 ```
 
 
