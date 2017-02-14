@@ -268,10 +268,15 @@ In navItems:
 
 ```
 app.controller("NavController", function( $scope ) {
-  $scope.navItems = [
+
+  $scope.message = 'hello!'
+
+  $scope.navItems = [ ...
+
+  })
 ```
 
-[Scope](https://docs.angularjs.org/guide/scope#!) is the glue between application controller and the view.
+[$scope](https://docs.angularjs.org/guide/scope#!) is the glue between application controller and the view.
 
 Comment out the navItems build script in main.js
 
