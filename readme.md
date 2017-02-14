@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 
 The find method returns a cursor (a complex Mongo Object that probably doesn’t make much sense).
 
-This cursor object contains all entries from our database. It also contains a [number of other properties and methods](https://docs.mongodb.com/manual/reference/method/js-cursor/) that allow us to work with data easily. One method is the toArray method.
+This cursor object contains all entries from our database. It also contains a [bunch of other properties and methods](https://docs.mongodb.com/manual/reference/method/js-cursor/) that allow us to work with data easily. One method is the toArray method.
 
 The `toArray` method takes callback function that allows us to perform actions on the entries we retrieved from MongoLab. Try doing a console.log() for the results and see what we get:
 
@@ -58,7 +58,7 @@ The array of entries should appear in the terminal.
 
 ####Generate HTML to contain the entries
 
-The standard method for outputting content fetched from a database is to use a templating engine. Some popular template engines include Jade/pug, Moustache, Embedded JavaScript (ejs) and Nunjucks. React and Angular offer their own templating engines - but to conclude this exercise we will use Embedded JavaScript (ejs). It’s the easiest to implement.
+The standard method for outputting content fetched from a database is to use a templating engine. Some popular template engines include Jade/pug, [Moustache](https://mustache.github.io/#demo), Embedded JavaScript [(ejs)](http://www.embeddedjs.com) and Nunjucks. React and Angular offer their own templating engines - but to conclude this exercise we will use Embedded JavaScript (ejs). It’s the easiest to implement.
 
 We use ejs by first installing it and then setting the view engine in Express to ejs.
 
@@ -90,7 +90,7 @@ In EJS, you can write JavaScript within <% and %> tags. You can also output Java
 
 ```
 .entry {
-	background: #eee;
+  background: #eee;
   padding: 0.5rem;
 }
 ```
@@ -113,6 +113,7 @@ The complete index.ejs file so far should be:
     }
     .entry {
       background: #eee;
+      padding: 0.5rem;
     }
   </style>
 </head>
@@ -140,10 +141,10 @@ Finally, we have to render this index.ejs file when handling the GET request. He
 
 ```js
 app.get('/', (req, res) => {
-  db.collection('entries').find().toArray((err, results) => {
+  db.collection('entries').find().toArray((err, result) => {
     if (err) return console.log(err)
-    // render index.ejs
-    res.render('index.ejs', {entries: results})
+    // renders index.ejs
+    res.render('index.ejs', {entries: result})
   })
 })
 ```
@@ -160,7 +161,7 @@ We need to
 
 3. re-enable app.use static. 
 
-Edit package.json to proxy the browser sync to our * express port number * (removing the server command too) and add nodemon to our list of concurrently running scripts (aka boom!).
+Edit package.json to proxy the browser sync to our express port number and add nodemon to our list of currently running scripts.
 
 ```
  "scripts": {
@@ -256,7 +257,7 @@ Set up `angular` folder with npm install and boom!
 
 HTML5 introduced the `data-` [attribute](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes).
 
-Angular uses this concept to extend html with directives - data-ng-app, data-ng-controller, data-ng-repeat...
+Angular uses this concept to extend html with [directives](https://www.w3schools.com/angular/angular_directives.asp) such as data-ng-app, data-ng-controller, data-ng-repeat
 
 `<html lang="en"  data-ng-app="myApp">`
 
@@ -264,19 +265,16 @@ In navItems:
 
 `var app = angular.module('myApp', []);`
 
+App is the main Angular space and can be broken down into multiple controllers.
+
 `<body data-ng-controller="NavController">`
 
 ```
 app.controller("NavController", function( $scope ) {
-
-  $scope.message = 'hello!'
-
-  $scope.navItems = [ ...
-
-  })
+  $scope.navItems = [
 ```
 
-[$scope](https://docs.angularjs.org/guide/scope#!) is the glue between application controller and the view.
+[Scope](https://docs.angularjs.org/guide/scope#!) is the glue between application controller and the view.
 
 Comment out the navItems build script in main.js
 
@@ -311,17 +309,20 @@ Build out the content:
 <div ng-repeat="navItem in navItems">
   <h2>{{ navItem.label }}</h2>
   <h3>{{ navItem.header }}</h3>
-  <div ng-bind-html="navItem.content"></div>
 </div>
 ```
 
-Note - injecting html into a page is considered unsafe. Try using `{{ navItem.content }}``
+Note - injecting html into a page is considered unsafe. Try adding `{{ navItem.content }}`
+
+We could use:
+
+`<div ng-bind-html="navItem.content"></div>``
 
 Load [sanitize](https://docs.angularjs.org/api/ngSanitize):
 
 `<script src="https://code.angularjs.org/1.5.8/angular-sanitize.min.js"></script>`
 
-Use [injection](https://docs.angularjs.org/guide/di) to make it available:
+Use [injection](https://docs.angularjs.org/guide/di) to make it available to the app:
 
 `var app = angular.module('myApp', ['ngSanitize']);`
 
@@ -329,7 +330,7 @@ Use [injection](https://docs.angularjs.org/guide/di) to make it available:
 
 Simple Angular directives:
 
-1. ng-app − This directive bootstraps an AngularJS Application. We use it together with [Modules](https://docs.angularjs.org/guide/module)
+1. ng-app − This directive starts an AngularJS Application. We use it to create [Modules](https://docs.angularjs.org/guide/module)
 2. ng-init − This directive initializes application data. (We won't use it except for the simple examples below.)
 3. ng-model − This directive defines the model that is variable to be used in AngularJS.
 4. ng-repeat − This directive repeats html elements for each item in a collection.
@@ -337,11 +338,22 @@ Simple Angular directives:
 ```
 <div class="site-wrap"  ng-init="messageText = 'Hello World!'">
 
-<input ng-model="messageText" size="30"/><br/>
-Everybody shout "{{ messageText | uppercase }}"
+<input ng-model="messageText" size="30"/>
+<p>Everybody shout "{{ messageText | uppercase }}"</p>
 ```
 
-This is a demonstration of [data binding](https://docs.angularjs.org/guide/databinding).
+This is a demonstration of [data binding](https://docs.angularjs.org/guide/databinding) and [filtering](https://docs.angularjs.org/api/ng/filter) to uppercase.
+
+Add the data to our controller - `$scope.messageText = 'Hello World!'`
+
+and it is still available in our view:
+
+```
+<div class="site-wrap">
+
+<input ng-model="messageText" size="30"/>
+<p>Everybody shout "{{ messageText | uppercase }}"</p>
+```
 
 Alernates 1 - using an object
 
@@ -385,7 +397,9 @@ ngClass:
 
 ```
 <ul>
-  <li ng-repeat="portfolio in portfolios | filter:searchFor | orderBy:'date'"
+  <li ng-repeat="portfolio in portfolios |
+  filter:searchFor |
+  orderBy:'date'"
   ng-class="{ even: $even, odd: $odd }">
   {{ portfolio.name  }}</li>
 </ul>
@@ -403,6 +417,18 @@ keys and values of the array:
 
 ##Components
 
+test.js
+
+```
+angular.module('myApp', []);
+
+angular.module('myApp').component('greetUser', {
+    template: 'Hello, {{$ctrl.user}}!',
+    controller: function GreetUserController() {
+        this.user = 'world';
+    }
+});
+```
 
 test.html
 
@@ -428,37 +454,32 @@ test.html
 </html>
 ```
 
-test.js
-
-```
-angular.module('myApp', []);
-
-angular.module('myApp').component('greetUser', {
-    template: 'Hello, {{$ctrl.user}}!',
-    controller: function GreetUserController() {
-        this.user = 'world';
-    }
-});
-```
-
-For comparison - here is what an Angular 2 .ts module looks like:
-
-```
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'my-app',
-  template: '<h1>{{title}}</h1>',
-})
-export class AppComponent {
-  title = 'Minimal NgModule';
-}
-```
-
 
 ###Notes
 
 https://github.com/expressjs/body-parser#bodyparserurlencodedoptions
 
 http://mongoosejs.com/docs/
+
+Homework
+
+Go to:
+
+`https://api.github.com/users/dannyboynyc`
+
+Your job is to extract your username from your github api and display it on a page using Angular. You need not use Express or npm, a plain html file will do. 
+
+Here's some code that should prove helpful:
+
+```
+app.controller("NavController", function( $scope, $http ) {
+
+var onUserComplete = function (response){
+  $scope.user = response.data
+}
+$http.get('https://api.github.com/users/dannyboynyc')
+.then( onUserComplete )
+```
+
+`<p>{{ user.name }}</p>` 
 
