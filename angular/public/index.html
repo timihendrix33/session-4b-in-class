@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-ng-app="myApp">
 <head>
 	<head>
 		<meta charset="UTF-8">
 		<title>Ang Barclays Live</title>
+		<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
 		<script src="/js/navitems.js"></script>
 		<link rel="stylesheet" href="/css/styles.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,9 +16,12 @@
 			<h1>Not on the app store!</h1>
 		</header>
 
-		<nav id="main">
+		<nav id="main" data-ng-controller="NavController">
 			<a class="logo" href="#0"><img src="/img/logo.svg" /></a>
 			<ul id="nav-links">
+				<li data-ng-repeat="navItem in navItems">
+					<a href=" {{ navItem.link }} ">{{ navItem.label }}</a>
+				</li>
 			</ul>
 		</nav>
 

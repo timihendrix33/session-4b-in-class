@@ -1,4 +1,9 @@
-const navItems = [
+var app = angular.module('myApp', []);
+
+app.controller("NavController", function( $scope ){
+
+
+$scope.navItems = [
 {
   label: 'Watchlist',
   link: 'watchlist',
@@ -84,3 +89,5 @@ const navItems = [
   <li>Create charts on the desktop and view them on the app</li>
   </ul>`
 }];
+
+});
